@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The APUSH Gazette — Unit 3 (1754–1800)</title>
+<style>
+  :root {
+    --parch: #f3e7c9; --parch-dark: #e4d2a6; --ink: #2b1d0e; --ink-soft: #5a4630;
+    --red: #8b1e1e; --navy: #1c2c4c; --gold: #b8892b; --green: #2f5d3a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+    background: radial-gradient(ellipse at center, #5a3d22 0%, #2a1a0d 100%);
+    display: flex; justify-content: center; padding: 28px 14px 60px;
+  }
+  .sheet {
+    width: 100%; max-width: 820px; background: var(--parch); padding: 30px 38px 34px;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(160,120,60,.18), transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(140,100,50,.22), transparent 45%),
+      radial-gradient(circle at 70% 10%, rgba(120,80,40,.12), transparent 30%);
+    box-shadow: 0 0 0 1px #c9b27a, 0 0 40px rgba(0,0,0,.6), inset 0 0 80px rgba(120,80,30,.35);
+    position: relative;
+  }
+  .masthead { text-align: center; border-bottom: 4px double var(--ink); padding-bottom: 10px; margin-bottom: 6px; }
+  .masthead .top { display: flex; justify-content: space-between; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
+  .masthead h1 {
+    font-family: "Old English Text MT", "UnifrakturMaguntia", "Engravers Old English", "Goudy Old Style", Georgia, serif;
+    font-size: 3rem; margin: 6px 0 2px; letter-spacing: .02em; font-weight: normal;
+  }
+  .masthead .motto { font-style: italic; color: var(--ink-soft); }
+  .dateline {
+    display: flex; justify-content: space-between; border-bottom: 1px solid var(--ink); padding: 5px 2px;
+    font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 20px; flex-wrap: wrap; gap: 6px;
+  }
+  /* timeline progress */
+  .timeline { position: relative; height: 46px; margin: 4px 8px 22px; }
+  .timeline .rail { position: absolute; top: 14px; left: 0; right: 0; height: 4px; background: var(--parch-dark); border: 1px solid var(--ink-soft); }
+  .timeline .fill { position: absolute; top: 14px; left: 0; height: 4px; background: var(--red); transition: width .4s; }
+  .timeline .tick { position: absolute; top: 8px; transform: translateX(-50%); text-align: center; font-size: .7rem; color: var(--ink-soft); }
+  .timeline .tick::before { content: ""; display: block; width: 2px; height: 16px; background: var(--ink-soft); margin: 0 auto 4px; }
+  .timeline .musket { position: absolute; top: -4px; transform: translateX(-50%); font-size: 1.3rem; transition: left .4s; }
+  /* start screen */
+  .notice { border: 2px solid var(--ink); padding: 18px 22px; margin-bottom: 18px; position: relative; }
+  .notice::before { content: ""; position: absolute; inset: 4px; border: 1px solid var(--ink); pointer-events: none; }
+  .notice h2 { text-align: center; margin: 0 0 8px; text-transform: uppercase; letter-spacing: .14em; font-size: 1.25rem; }
+  .cols { columns: 2; column-gap: 28px; column-rule: 1px solid var(--ink-soft); font-size: .98rem; line-height: 1.55; text-align: justify; }
+  .cols p { margin: 0 0 10px; }
+  .cols p:first-child::first-letter { float: left; font-size: 3.2rem; line-height: .85; padding: 4px 6px 0 0; color: var(--red); }
+  .periods { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin: 16px 0; }
+  .periods label { display: flex; gap: 8px; align-items: center; border: 1px solid var(--ink-soft); padding: 7px 10px; cursor: pointer; background: rgba(255,255,255,.18); font-size: .92rem; }
+  .btn {
+    font-family: inherit; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em; cursor: pointer;
+    background: var(--red); color: var(--parch); border: 2px solid var(--ink); padding: 11px 26px;
+    box-shadow: 3px 3px 0 var(--ink); transition: transform .08s, box-shadow .08s;
+  }
+  .btn:hover { background: #a02626; }
+  .btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn:disabled { opacity: .4; cursor: not-allowed; }
+  .center { text-align: center; }
+  /* flip card */
+  .stage { perspective: 1600px; }
+  .card { position: relative; transition: transform .7s cubic-bezier(.4,.2,.2,1); transform-style: preserve-3d; min-height: 320px; }
+  .card.flipped { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border: 2px solid var(--ink); padding: 22px 26px; background: var(--parch);
+    background-image: radial-gradient(circle at 80% 20%, rgba(160,120,60,.15), transparent 50%);
+    overflow: auto;
+  }
+  .face::before { content: ""; position: absolute; inset: 5px; border: 1px solid var(--ink-soft); pointer-events: none; }
+  .back { transform: rotateY(180deg); }
+  .kicker { font-size: .78rem; text-transform: uppercase; letter-spacing: .16em; color: var(--red); font-weight: bold; text-align: center; }
+  .kicker span { color: var(--ink-soft); font-weight: normal; }
+  .rule { text-align: center; color: var(--ink-soft); margin: 6px 0 12px; letter-spacing: .5em; }
+  .source {
+    background: rgba(255,255,255,.28); border-left: 4px solid var(--gold); padding: 10px 14px; margin: 0 0 14px;
+    font-style: italic; line-height: 1.55;
+  }
+  .source cite { display: block; margin-top: 6px; font-style: normal; font-size: .85rem; color: var(--ink-soft); text-align: right; }
+  .question { font-size: 1.18rem; line-height: 1.5; margin: 0 0 14px; font-weight: bold; }
+  .choices { display: grid; gap: 8px; }
+  .choice {
+    text-align: left; font-family: inherit; font-size: 1rem; line-height: 1.45; background: transparent; color: var(--ink);
+    border: 1px solid var(--ink-soft); padding: 9px 12px 9px 42px; cursor: pointer; position: relative;
+  }
+  .choice::before {
+    content: attr(data-l); position: absolute; left: 10px; top: 8px; width: 22px; height: 22px; border: 1px solid var(--ink);
+    border-radius: 50%; display: grid; place-items: center; font-size: .8rem; font-weight: bold;
+  }
+  .choice:hover { background: rgba(139,30,30,.08); border-color: var(--red); }
+  .verdict { text-align: center; font-size: 2rem; margin: 6px 0 4px; letter-spacing: .06em; }
+  .verdict.ok { color: var(--green); } .verdict.no { color: var(--red); }
+  .stamp {
+    position: absolute; top: 22px; right: 26px; border: 3px solid currentColor; padding: 4px 10px; transform: rotate(10deg);
+    font-weight: bold; text-transform: uppercase; letter-spacing: .1em; font-size: .9rem; opacity: .85;
+  }
+  .stamp.ok { color: var(--green); } .stamp.no { color: var(--red); }
+  .answer-line { margin: 10px 0; padding: 10px 12px; border: 1px dashed var(--ink-soft); background: rgba(255,255,255,.22); }
+  .answer-line b { color: var(--green); }
+  .answer-line .yours { color: var(--red); text-decoration: line-through; }
+  .expl { line-height: 1.6; }
+  .back .btn { margin-top: 12px; }
+  .scorebar { display: flex; justify-content: space-between; font-size: .88rem; text-transform: uppercase; letter-spacing: .08em; margin: 14px 2px 0; color: var(--ink-soft); }
+  .streak { color: var(--red); font-weight: bold; }
+  /* results */
+  .rank { font-size: 2.2rem; text-align: center; margin: 4px 0; }
+  .rank small { display: block; font-size: 1rem; font-style: italic; color: var(--ink-soft); }
+  table.ledger { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: .95rem; }
+  .ledger th { text-align: left; border-bottom: 2px solid var(--ink); padding: 4px; text-transform: uppercase; font-size: .78rem; letter-spacing: .1em; }
+  .ledger td { padding: 6px 4px; border-bottom: 1px dotted var(--ink-soft); }
+  .ledger td.n { text-align: right; white-space: nowrap; }
+  .errata { border-top: 3px double var(--ink); margin-top: 18px; padding-top: 10px; }
+  .errata h3 { text-align: center; text-transform: uppercase; letter-spacing: .14em; margin: 0 0 10px; }
+  .erratum { padding: 10px 0; border-bottom: 1px dotted var(--ink-soft); line-height: 1.5; }
+  .erratum .ans { color: var(--green); font-weight: bold; }
+  .erratum .exp { color: var(--ink-soft); font-size: .93rem; }
+  .btnrow { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
+  @media (max-width: 640px) {
+    .sheet { padding: 20px 16px; } .masthead h1 { font-size: 2.1rem; } .cols { columns: 1; }
+    .timeline .tick:nth-child(even) { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="masthead">
+    <div class="top"><span>Vol. III</span><span>Price: One Grade Point</span></div>
+    <h1>The APUSH Gazette</h1>
+    <div class="motto">Containing the Freshest Advices, Foreign &amp; Domestic — Period 3, 1754–1800</div>
+  </div>
+  <div class="dateline"><span id="dl-left">Printed for the Students of History</span><span id="dl-right">Unit III Examination</span></div>
+  <div id="app"></div>
+</div>
+
+<script>
+const PERIODS = {
+  war: "French & Indian War (1754–1763)",
+  road: "Road to Revolution (1763–1775)",
+  rev: "The Revolution (1775–1783)",
+  aoc: "Articles & Constitution (1781–1791)",
+  early: "The Early Republic (1789–1800)",
+};
+const YEAR_SPAN = [1754, 1800];
+
+// Each question: first choice listed is correct. `yr` drives the timeline.
+const QS = [
+  // ===== French & Indian War =====
+  { p: "war", yr: 1754, q: "The Albany Plan of Union (1754), proposed by Benjamin Franklin, is significant because it",
+    c: ["was an early attempt to unite the colonies for common defense, though colonial assemblies rejected it",
+        "created the first national government of the United States",
+        "formally declared colonial independence from Britain",
+        "established a military alliance between the colonies and France"],
+    e: "Franklin's plan called for a unified colonial council to coordinate defense and Native diplomacy during the French and Indian War. The colonies rejected it, guarding their autonomy — but it foreshadowed later union. (Think: \"Join, or Die\" cartoon.)" },
+  { p: "war", yr: 1754, q: "The French and Indian War began primarily as a conflict over",
+    c: ["control of the Ohio River Valley", "fishing rights off Newfoundland", "the slave trade in the Caribbean", "British taxation of the colonies"],
+    e: "Both Britain and France claimed the Ohio River Valley. A young George Washington's clash with French forces near Fort Duquesne in 1754 helped spark the war." },
+  { p: "war", yr: 1763, q: "Which was the MOST significant result of the French and Indian War for British–colonial relations?",
+    c: ["Britain's massive war debt led Parliament to tax the colonies directly, ending salutary neglect",
+        "France gained control of most of North America east of the Mississippi",
+        "The colonies immediately declared independence",
+        "Britain withdrew all troops from North America"],
+    e: "The Treaty of Paris (1763) removed France from North America, but Britain was deep in debt. Parliament abandoned salutary neglect and began taxing the colonies to pay for the war and frontier defense." },
+  { p: "war", yr: 1763, q: "Pontiac's Rebellion (1763) was a response by Native Americans in the Great Lakes region to",
+    c: ["British policies and colonial settlers encroaching on their lands after France's defeat",
+        "the Spanish mission system in California",
+        "the Stamp Act",
+        "the Constitution's treatment of Native nations"],
+    e: "With France gone, Native nations lost a diplomatic counterweight. British officials ended gift-giving and settlers pushed west, prompting Pontiac's coalition to attack British forts." },
+  { p: "war", yr: 1763, src: "\"…We do further strictly enjoin and require all Persons whatever who have either wilfully or inadvertently seated themselves upon any Lands… which… are still reserved to the said Indians… forthwith to remove themselves from such Settlements.\"", cite: "— Royal Proclamation, King George III, 1763",
+    q: "Many colonists reacted to the policy described in this excerpt with",
+    c: ["resentment, because it blocked westward settlement they believed they had fought for",
+        "enthusiasm, because it opened new lands to farming",
+        "indifference, because few colonists lived near the frontier",
+        "support, because it lowered their taxes"],
+    e: "The Proclamation Line of 1763 barred settlement west of the Appalachians to prevent conflict with Native peoples. Colonists — many of whom had fought in the war — resented it and often ignored it." },
+
+  // ===== Road to Revolution =====
+  { p: "road", yr: 1765, q: "The Stamp Act (1765) differed from earlier British trade laws because it",
+    c: ["was a direct tax on the colonists intended to raise revenue, not just regulate trade",
+        "only applied to tea imported from India",
+        "was approved by colonial legislatures",
+        "taxed goods exported from the colonies to France"],
+    e: "Earlier Navigation Acts regulated trade. The Stamp Act taxed printed materials (newspapers, legal documents, playing cards) directly to raise revenue — prompting the cry of \"no taxation without representation.\"" },
+  { p: "road", yr: 1765, q: "Which colonial response to the Stamp Act proved MOST effective in pressuring Parliament to repeal it?",
+    c: ["Boycotts (nonimportation agreements) of British goods", "Petitions to the King of France", "The Boston Tea Party", "Armed attacks on British forts"],
+    e: "Nonimportation hurt British merchants, who lobbied Parliament. Combined with the Stamp Act Congress and Sons of Liberty protests, this led to repeal in 1766." },
+  { p: "road", yr: 1766, q: "When Parliament repealed the Stamp Act, it also passed the Declaratory Act, which",
+    c: ["asserted Parliament's authority to make laws binding the colonies \"in all cases whatsoever\"",
+        "declared the colonies independent",
+        "granted colonists representation in Parliament",
+        "ended the quartering of troops"],
+    e: "The Declaratory Act was a face-saving measure: Britain backed down on the tax but insisted on its full sovereignty over the colonies." },
+  { p: "road", yr: 1767, q: "John Dickinson's \"Letters from a Farmer in Pennsylvania\" (1767–68) argued that the Townshend Acts were",
+    c: ["unconstitutional because they were designed to raise revenue rather than regulate trade",
+        "acceptable because they were external taxes",
+        "a reason for immediate armed rebellion",
+        "too lenient on colonial smugglers"],
+    e: "Dickinson accepted Parliament's power to regulate trade but argued taxes meant to raise revenue — even on imports like glass, paper, paint, and tea — violated colonists' rights." },
+  { p: "road", yr: 1770, q: "Patriot leaders like Paul Revere and Samuel Adams used the Boston Massacre (1770) primarily as",
+    c: ["propaganda to inflame anti-British sentiment", "a justification for the Proclamation of 1763", "evidence for repealing the Declaration of Independence", "a reason to support the Tea Act"],
+    e: "Revere's famous engraving depicted British soldiers firing on peaceful civilians. Ironically, John Adams successfully defended most of the soldiers in court." },
+  { p: "road", yr: 1772, q: "Committees of Correspondence were important because they",
+    c: ["spread information and coordinated resistance among the colonies", "negotiated the Treaty of Paris", "collected taxes for Parliament", "wrote the Articles of Confederation"],
+    e: "Started by Samuel Adams in Boston (1772) and expanded intercolonially, they built a communication network that unified colonial resistance." },
+  { p: "road", yr: 1773, q: "The Tea Act of 1773 angered colonists even though it actually lowered the price of tea because",
+    c: ["it granted the East India Company a monopoly and implicitly reinforced Parliament's right to tax",
+        "it banned tea drinking entirely",
+        "it raised the price of tea dramatically",
+        "it was passed by the Continental Congress"],
+    e: "The act aimed to rescue the struggling East India Company. Colonists saw cheap taxed tea as a trap to get them to accept Parliament's taxing power — leading to the Boston Tea Party." },
+  { p: "road", yr: 1774, q: "Parliament's Coercive (Intolerable) Acts of 1774 were a direct response to",
+    c: ["the Boston Tea Party", "the Battle of Saratoga", "Shays' Rebellion", "the Stamp Act Congress"],
+    e: "They closed Boston Harbor, restricted Massachusetts self-government, and expanded quartering. Instead of isolating Boston, they united the colonies and led to the First Continental Congress." },
+  { p: "road", yr: 1774, q: "The First Continental Congress (1774) responded to the Coercive Acts by",
+    c: ["organizing a boycott of British goods and petitioning the King for redress", "declaring independence", "ratifying the Constitution", "appointing George Washington president"],
+    e: "Delegates from 12 colonies created the Continental Association (a boycott) and sent the Declaration of Rights and Grievances — still seeking reconciliation, not independence." },
+
+  // ===== Revolution =====
+  { p: "rev", yr: 1775, q: "The Olive Branch Petition (1775) shows that many members of the Second Continental Congress",
+    c: ["still hoped to reconcile with Britain even after fighting had begun", "wanted an alliance with Spain", "opposed creating an army", "supported Parliament's right to tax"],
+    e: "Even after Lexington, Concord, and Bunker Hill, Congress appealed to George III. He rejected it and declared the colonies in rebellion." },
+  { p: "rev", yr: 1776, src: "\"Society in every state is a blessing, but government even in its best state is but a necessary evil… There is something very absurd, in supposing a continent to be perpetually governed by an island.\"", cite: "— Thomas Paine, Common Sense, 1776",
+    q: "Paine's pamphlet was MOST significant because it",
+    c: ["used plain language to persuade ordinary colonists to support independence and reject monarchy",
+        "outlined the structure of the federal Constitution",
+        "argued for reconciliation with Britain",
+        "called for the abolition of slavery in all colonies"],
+    e: "Common Sense sold over 100,000 copies in months. It attacked hereditary monarchy and made the case for independence in accessible terms, shifting public opinion." },
+  { p: "rev", yr: 1776, src: "\"We hold these truths to be self-evident, that all men are created equal, that they are endowed by their Creator with certain unalienable Rights, that among these are Life, Liberty and the pursuit of Happiness.\"", cite: "— Declaration of Independence, 1776",
+    q: "The ideas in this excerpt were MOST directly influenced by",
+    c: ["Enlightenment thinkers such as John Locke", "the divine right of kings", "mercantilist economic theory", "the Puritan Half-Way Covenant"],
+    e: "Locke argued people have natural rights (life, liberty, property) and that governments derive power from the consent of the governed — central to Jefferson's argument." },
+  { p: "rev", yr: 1776, src: "\"…in the new Code of Laws which I suppose it will be necessary for you to make I desire you would Remember the Ladies, and be more generous and favourable to them than your ancestors.\"", cite: "— Abigail Adams to John Adams, March 1776",
+    q: "This letter BEST illustrates which development during the Revolutionary era?",
+    c: ["Revolutionary ideals of liberty prompted some to question women's limited rights",
+        "Women gained the right to vote in all states after 1776",
+        "Women were barred from participating in boycotts",
+        "The Constitution guaranteed equal rights for women"],
+    e: "Women supported the cause through boycotts and homespun production. Abigail Adams applied revolutionary rhetoric to women's status, though few legal gains followed. This connects to the idea of \"Republican Motherhood.\"" },
+  { p: "rev", yr: 1777, q: "The American victory at Saratoga (1777) was a turning point because it",
+    c: ["convinced France to formally ally with the United States", "ended the Revolutionary War", "forced Britain to repeal the Stamp Act", "led to the capture of Washington's army"],
+    e: "Saratoga proved the Americans could win. France signed the Treaty of Alliance (1778), providing troops, money, and a navy — crucial to final victory." },
+  { p: "rev", yr: 1775, q: "Lord Dunmore's Proclamation (1775) offered freedom to enslaved people who",
+    c: ["escaped from Patriot masters and fought for the British", "fought for the Continental Army", "moved to the Northwest Territory", "converted to Christianity"],
+    e: "Dunmore, Virginia's royal governor, sought to undermine Patriot slaveholders. Thousands of enslaved people fled to British lines during the war, seeking freedom." },
+  { p: "rev", yr: 1781, q: "The final major battle of the Revolutionary War, in which Cornwallis surrendered after being trapped by American and French forces, was",
+    c: ["Yorktown", "Saratoga", "Trenton", "Lexington and Concord"],
+    e: "In 1781, Washington's army and French forces (with the French fleet blocking escape by sea) trapped Cornwallis at Yorktown, Virginia." },
+  { p: "rev", yr: 1783, q: "Under the Treaty of Paris (1783), the United States gained",
+    c: ["independence and territory extending west to the Mississippi River", "Canada and Florida", "territory west to the Pacific Ocean", "only the land east of the Appalachian Mountains"],
+    e: "Britain recognized U.S. independence with borders from the Atlantic to the Mississippi, Canada to Spanish Florida. Native nations were not party to the treaty." },
+
+  // ===== Articles & Constitution =====
+  { p: "aoc", yr: 1781, q: "Which was a major weakness of the Articles of Confederation?",
+    c: ["Congress could not levy taxes or regulate interstate commerce", "The president had too much power", "The national judiciary overruled state courts", "Congress could draft citizens into the army at will"],
+    e: "Fearing tyranny, the Articles created a weak central government: no power to tax, no executive, no national courts, and amendments required unanimous consent." },
+  { p: "aoc", yr: 1787, q: "The Northwest Ordinance of 1787 is considered the most significant achievement of the Articles government because it",
+    c: ["created a process for territories to become equal states and banned slavery in the territory",
+        "allowed slavery to expand into the Northwest",
+        "gave all western lands to Native Americans permanently",
+        "established a national bank"],
+    e: "It set up territorial government, a path to statehood (60,000 people), protected civil liberties, encouraged public education, and prohibited slavery north of the Ohio River." },
+  { p: "aoc", yr: 1786, q: "Shays' Rebellion (1786–87) influenced the creation of the Constitution by",
+    c: ["convincing many leaders that a stronger national government was needed",
+        "proving the Articles of Confederation worked well",
+        "leading to the immediate abolition of state debts",
+        "causing Britain to reclaim Massachusetts"],
+    e: "Indebted Massachusetts farmers led by Daniel Shays closed courts to stop foreclosures. Congress couldn't respond effectively, alarming elites and building momentum for the Constitutional Convention." },
+  { p: "aoc", yr: 1787, q: "The Great (Connecticut) Compromise resolved the dispute between large and small states by",
+    c: ["creating a bicameral legislature with proportional representation in the House and equal representation in the Senate",
+        "counting enslaved people as three-fifths of a person",
+        "giving each state one vote in a unicameral Congress",
+        "letting the Supreme Court decide representation"],
+    e: "It blended the Virginia Plan (population-based) and New Jersey Plan (equal votes). Don't confuse it with the Three-Fifths Compromise, which addressed counting enslaved people." },
+  { p: "aoc", yr: 1787, q: "The Three-Fifths Compromise at the Constitutional Convention",
+    c: ["counted three-fifths of enslaved people for representation and taxation, boosting Southern power in Congress",
+        "abolished the slave trade immediately",
+        "gave three-fifths of Congress the power to override a veto",
+        "required three-fifths of states to ratify amendments"],
+    e: "Southern states wanted enslaved people counted for representation; Northern states objected. The compromise increased Southern representation in the House and Electoral College." },
+  { p: "aoc", yr: 1788, src: "\"Extend the sphere, and you take in a greater variety of parties and interests; you make it less probable that a majority of the whole will have a common motive to invade the rights of other citizens.\"", cite: "— James Madison, Federalist No. 10, 1787",
+    q: "Madison's argument in this excerpt was intended to counter the Anti-Federalist claim that",
+    c: ["a republic could not succeed over a large territory", "the states should be abolished", "the president should be elected directly", "a bill of rights was unnecessary"],
+    e: "Anti-Federalists, drawing on Montesquieu, argued republics only worked in small areas. Madison countered that a large republic's many factions would check one another." },
+  { p: "aoc", yr: 1788, q: "Anti-Federalists opposed ratification of the Constitution chiefly because they",
+    c: ["feared a strong central government would threaten individual liberties and states' rights, especially without a bill of rights",
+        "wanted an even stronger national government",
+        "supported returning to British rule",
+        "believed the Constitution gave too much power to the states"],
+    e: "Leaders like Patrick Henry and George Mason feared tyranny. Their pressure led Federalists to promise a Bill of Rights, adopted in 1791." },
+  { p: "aoc", yr: 1791, q: "The Bill of Rights (1791) was added to the Constitution mainly to",
+    c: ["win over Anti-Federalists by protecting individual liberties from the federal government", "abolish slavery", "create the Electoral College", "establish the national bank"],
+    e: "Madison drafted the first ten amendments, protecting freedoms like speech, religion, press, and due process, fulfilling a promise made during ratification." },
+
+  // ===== Early Republic =====
+  { p: "early", yr: 1790, q: "Alexander Hamilton's financial plan included all of the following EXCEPT",
+    c: ["abolishing all tariffs to promote free trade", "federal assumption of state war debts", "creation of a national bank", "an excise tax on whiskey"],
+    e: "Hamilton favored protective tariffs to raise revenue and support manufacturing. His plan aimed to establish national credit and tie wealthy creditors to the federal government." },
+  { p: "early", yr: 1791, q: "Thomas Jefferson opposed the First Bank of the United States because he",
+    c: ["interpreted the Constitution strictly and argued it did not authorize Congress to create a bank",
+        "believed in a loose interpretation of the Constitution",
+        "wanted the bank to be located in Virginia",
+        "thought the bank would help farmers too much"],
+    e: "Jefferson argued for strict construction. Hamilton cited the \"necessary and proper\" (elastic) clause — a loose interpretation. Washington sided with Hamilton." },
+  { p: "early", yr: 1794, q: "Washington's response to the Whiskey Rebellion (1794) demonstrated that",
+    c: ["the new federal government had the power and willingness to enforce its laws", "the federal government was as weak as under the Articles", "farmers' grievances would be resolved by repealing all taxes", "states could nullify federal laws"],
+    e: "Western Pennsylvania farmers resisted Hamilton's excise tax. Washington led about 13,000 militia to suppress it — a sharp contrast with the weak response to Shays' Rebellion." },
+  { p: "early", yr: 1793, q: "Washington's Proclamation of Neutrality (1793) was issued in response to",
+    c: ["war between Britain and revolutionary France", "the XYZ Affair", "the Louisiana Purchase", "Shays' Rebellion"],
+    e: "Despite the 1778 alliance with France, Washington kept the young nation out of European war. Citizen Genêt's efforts to rally American support for France made matters worse." },
+  { p: "early", yr: 1795, q: "Jay's Treaty (1794–95) with Great Britain was unpopular with Democratic-Republicans mainly because it",
+    c: ["failed to stop British impressment of American sailors and seemed to favor Britain over France",
+        "gave the U.S. navigation rights on the Mississippi",
+        "declared war on France",
+        "ceded New England to Canada"],
+    e: "Britain agreed to leave its forts in the Northwest but did not end impressment. Pinckney's Treaty (1795) with Spain, by contrast, was popular — it opened the Mississippi and the port of New Orleans." },
+  { p: "early", yr: 1795, q: "The Treaty of Greenville (1795) followed the Battle of Fallen Timbers and resulted in",
+    c: ["a Native confederacy ceding much of present-day Ohio to the United States", "the creation of a permanent Native state", "British control of the Ohio Valley", "Spanish withdrawal from Florida"],
+    e: "After General Anthony Wayne's victory, the Western Confederacy ceded land, opening the Ohio region to American settlement." },
+  { p: "early", yr: 1796, src: "\"It is our true policy to steer clear of permanent alliances with any portion of the foreign world… [and] warn you in the most solemn manner against the baneful effects of the spirit of party.\"", cite: "— George Washington, Farewell Address, 1796",
+    q: "Washington's Farewell Address MOST directly influenced which later U.S. foreign policy tradition?",
+    c: ["Avoiding entangling alliances / neutrality toward European conflicts", "Manifest Destiny", "Containment of communism", "Dollar diplomacy"],
+    e: "Washington warned against political parties and permanent alliances. His advice shaped American foreign policy (isolationism/neutrality) well into the 20th century." },
+  { p: "early", yr: 1797, q: "The XYZ Affair (1797–98) led to",
+    c: ["an undeclared naval \"Quasi-War\" with France", "a formal declaration of war against Britain", "the purchase of Louisiana", "the repeal of the Bill of Rights"],
+    e: "French agents demanded bribes from U.S. diplomats. Public outrage (\"Millions for defense, but not one cent for tribute!\") led to naval conflict with France and boosted the Federalists." },
+  { p: "early", yr: 1798, q: "The Alien and Sedition Acts (1798), passed under President John Adams, were MOST criticized because they",
+    c: ["restricted free speech and targeted Democratic-Republican critics and immigrants", "lowered tariffs on French goods", "expanded voting rights to immigrants", "abolished the national bank"],
+    e: "The Sedition Act made it a crime to publish \"false, scandalous and malicious\" writing against the government; Alien Acts lengthened the naturalization period and allowed deportation. Many saw them as violating the First Amendment." },
+  { p: "early", yr: 1798, q: "Jefferson and Madison's response to the Alien and Sedition Acts, the Virginia and Kentucky Resolutions, argued that",
+    c: ["states could judge federal laws unconstitutional and refuse to enforce them (nullification)", "the president could ignore Supreme Court rulings", "Congress should abolish the states", "the Bill of Rights did not apply to the federal government"],
+    e: "These resolutions introduced the compact theory and the idea of nullification — later invoked in the Nullification Crisis (1832) and the secession debates." },
+  { p: "early", yr: 1796, q: "The first American political parties developed largely from disagreements between",
+    c: ["Hamilton's Federalists and Jefferson's Democratic-Republicans", "Whigs and Democrats", "Loyalists and Patriots", "Republicans and Democrats"],
+    e: "Federalists favored a strong central government, commerce, and Britain; Democratic-Republicans favored states' rights, agrarianism, strict construction, and France." },
+  { p: "early", yr: 1791, q: "The Haitian Revolution (beginning 1791) affected the United States by",
+    c: ["heightening slaveholders' fears of slave revolts in the American South", "causing the U.S. to abolish slavery", "leading the U.S. to annex Haiti", "ending trade with Britain"],
+    e: "The successful revolt of enslaved people in Saint-Domingue terrified Southern slaveholders and led to stricter slave codes. It also later contributed to France's decision to sell Louisiana." },
+  { p: "early", yr: 1800, q: "\"Republican Motherhood\" in the early republic held that women",
+    c: ["had a civic duty to raise virtuous, educated citizens for the republic", "should be allowed to vote and hold office", "should not receive any education", "should serve in the military"],
+    e: "This ideal elevated women's domestic role as politically important and justified expanded female education, while still excluding women from formal political life." },
+];
+
+const RANKS = [
+  [95, "General of the Army", "Washington himself would salute you."],
+  [85, "Colonel", "A brilliant command of the Revolutionary era."],
+  [75, "Captain", "Solid ground — a few skirmishes left to win."],
+  [60, "Sergeant", "Good progress. Review the dispatches below."],
+  [40, "Minuteman", "Ready at a minute's notice — but drill more."],
+  [0, "Raw Recruit", "Every Patriot starts somewhere. Study and return!"],
+];
+
+const app = document.getElementById("app");
+let S = {};
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const L = "ABCD";
+
+function timelineHTML(year) {
+  const [a, b] = YEAR_SPAN, pct = y => ((y - a) / (b - a)) * 100;
+  const ticks = [1754, 1763, 1765, 1770, 1776, 1781, 1787, 1791, 1796, 1800];
+  return `<div class="timeline">
+    <div class="rail"></div><div class="fill" style="width:${pct(year)}%"></div>
+    ${ticks.map(t => `<div class="tick" style="left:${pct(t)}%">${t}</div>`).join("")}
+    <div class="musket" style="left:${pct(year)}%" title="${year}">🎖️</div>
+  </div>`;
+}
+
+function renderStart() {
+  document.getElementById("dl-right").textContent = "Unit III Examination";
+  app.innerHTML = `
+    <div class="notice">
+      <h2>Notice to the Publick</h2>
+      <div class="cols">
+        <p>Whereas the Students of American History are presently engaged in the Study of the Third Period, spanning the Years 1754 to 1800, this Gazette doth present ${QS.length} Questions upon the French &amp; Indian War, the Imperial Crisis, the Revolution, the Framing of the Constitution, and the Early Republic.</p>
+        <p>Each Card shall be turned upon Answering, revealing the Truth of the Matter along with Context useful for the Examination. Several Questions present Primary Sources in the Manner of the College Board. A Streak of correct Answers shall be tallied, and a Rank conferred at the End.</p>
+      </div>
+    </div>
+    <div style="font-weight:bold;text-transform:uppercase;letter-spacing:.1em;font-size:.85rem">Select the Periods to be Examined:</div>
+    <div class="periods">
+      ${Object.entries(PERIODS).map(([k, v]) => `<label><input type="checkbox" value="${k}" checked> ${v}</label>`).join("")}
+    </div>
+    <label style="display:flex;gap:8px;align-items:center;margin-bottom:18px"><input type="checkbox" id="chrono"> Present questions in chronological order (rather than shuffled)</label>
+    <div class="center"><button class="btn" id="go">Commence Examination</button></div>`;
+  document.getElementById("go").onclick = () => {
+    const sel = [...app.querySelectorAll(".periods input:checked")].map(i => i.value);
+    if (!sel.length) return alert("Pray select at least one Period.");
+    let pool = QS.filter(q => sel.includes(q.p));
+    pool = document.getElementById("chrono").checked ? pool.slice().sort((a, b) => a.yr - b.yr) : shuffle(pool);
+    begin(pool);
+  };
+}
+
+function begin(pool) {
+  S = {
+    pool, i: 0, results: [], streak: 0, best: 0,
+    qs: pool.map(q => { const o = shuffle([0, 1, 2, 3]); return { ...q, choices: o.map(k => q.c[k]), ans: o.indexOf(0) }; }),
+  };
+  renderCard();
+}
+
+function renderCard() {
+  const q = S.qs[S.i];
+  const correct = S.results.filter(r => r.ok).length;
+  document.getElementById("dl-right").textContent = `Dispatch ${S.i + 1} of ${S.qs.length}`;
+  app.innerHTML = `
+    ${timelineHTML(q.yr)}
+    <div class="stage"><div class="card" id="card">
+      <div class="face front">
+        <div class="kicker">${esc(PERIODS[q.p])} <span>· c. ${q.yr}</span></div>
+        <div class="rule">✦ ✦ ✦</div>
+        ${q.src ? `<div class="source">${esc(q.src)}<cite>${esc(q.cite)}</cite></div>` : ""}
+        <p class="question">${esc(q.q)}</p>
+        <div class="choices">${q.choices.map((c, k) => `<button class="choice" data-l="${L[k]}" data-k="${k}">${esc(c)}</button>`).join("")}</div>
+      </div>
+      <div class="face back" id="back"></div>
+    </div></div>
+    <div class="scorebar">
+      <span>Correct: ${correct} / ${S.results.length}</span>
+      <span class="streak">${S.streak >= 2 ? `🔥 Streak: ${S.streak}` : ""}</span>
+      <span>Keys: A–D · Enter</span>
+    </div>`;
+  app.querySelectorAll(".choice").forEach(b => b.onclick = () => answer(+b.dataset.k));
+  fitCard();
+}
+
+function fitCard() {
+  const card = document.getElementById("card");
+  card.style.minHeight = "0px";
+  const h = Math.max(...[...card.querySelectorAll(".face")].map(f => f.scrollHeight));
+  card.style.minHeight = Math.max(320, h + 4) + "px";
+}
+
+function answer(k) {
+  const card = document.getElementById("card");
+  if (!card || card.classList.contains("flipped")) return;
+  const q = S.qs[S.i], ok = k === q.ans;
+  S.results.push({ q, pick: k, ok });
+  S.streak = ok ? S.streak + 1 : 0;
+  S.best = Math.max(S.best, S.streak);
+  const last = S.i === S.qs.length - 1;
+  document.getElementById("back").innerHTML = `
+    <span class="stamp ${ok ? "ok" : "no"}">${ok ? "Huzzah!" : "Alas!"}</span>
+    <div class="kicker">${esc(PERIODS[q.p])}</div>
+    <div class="verdict ${ok ? "ok" : "no"}">${ok ? "Correct" : "Incorrect"}</div>
+    <div class="rule">✦ ✦ ✦</div>
+    <p style="margin:0 0 6px"><i>${esc(q.q)}</i></p>
+    <div class="answer-line">
+      ${ok ? "" : `<div class="yours">Your answer: ${esc(q.choices[k])}</div>`}
+      <div>Correct: <b>${esc(q.choices[q.ans])}</b></div>
+    </div>
+    <div class="expl">${esc(q.e)}</div>
+    <div class="center"><button class="btn" id="next">${last ? "Read the Final Report" : "Next Dispatch →"}</button></div>`;
+  document.getElementById("next").onclick = next;
+  fitCard();
+  card.classList.add("flipped");
+  const sb = app.querySelector(".scorebar");
+  sb.children[0].textContent = `Correct: ${S.results.filter(r => r.ok).length} / ${S.results.length}`;
+  sb.children[1].textContent = S.streak >= 2 ? `🔥 Streak: ${S.streak}` : "";
+}
+
+function next() {
+  if (S.i < S.qs.length - 1) { S.i++; renderCard(); window.scrollTo({ top: 0, behavior: "smooth" }); }
+  else renderResults();
+}
+
+function renderResults() {
+  const n = S.results.length, c = S.results.filter(r => r.ok).length, pct = Math.round(c / n * 100);
+  const [, rank, blurb] = RANKS.find(([min]) => pct >= min);
+  const per = {};
+  S.results.forEach(r => { per[r.q.p] ??= [0, 0]; per[r.q.p][1]++; if (r.ok) per[r.q.p][0]++; });
+  const missed = S.results.filter(r => !r.ok);
+  document.getElementById("dl-right").textContent = "Extraordinary Edition";
+  app.innerHTML = `
+    ${timelineHTML(1800)}
+    <div class="notice">
+      <h2>Final Report from Headquarters</h2>
+      <div class="rank">${rank}<small>${blurb}</small></div>
+      <p class="center" style="font-size:1.15rem;margin:8px 0 0">
+        <b>${c}</b> of <b>${n}</b> correct (${pct}%) · Longest streak: <b>${S.best}</b>
+      </p>
+    </div>
+    <table class="ledger">
+      <tr><th>Period</th><th style="text-align:right">Score</th></tr>
+      ${Object.keys(PERIODS).filter(k => per[k]).map(k => {
+        const [a, t] = per[k], p = a / t;
+        return `<tr><td>${PERIODS[k]}</td><td class="n">${a}/${t} ${p === 1 ? "★" : p >= .7 ? "✓" : "✗ review"}</td></tr>`;
+      }).join("")}
+    </table>
+    <div class="btnrow">
+      ${missed.length ? `<button class="btn" id="redo">Re-examine the ${missed.length} Missed</button>` : ""}
+      <button class="btn ghost" id="again">New Examination</button>
+    </div>
+    ${missed.length ? `<div class="errata"><h3>Errata &amp; Corrections</h3>
+      ${missed.map(r => `<div class="erratum">
+        <b>${esc(r.q.q)}</b><br>
+        <span class="ans">✓ ${esc(r.q.choices[r.q.ans])}</span><br>
+        <span class="exp">${esc(r.q.e)}</span></div>`).join("")}</div>`
+      : `<p class="center" style="margin-top:20px"><i>No errata to report. A flawless campaign!</i></p>`}`;
+  if (missed.length) document.getElementById("redo").onclick = () => begin(shuffle(missed.map(r => QS.find(o => o.q === r.q.q))));
+  document.getElementById("again").onclick = renderStart;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+document.addEventListener("keydown", e => {
+  const card = document.getElementById("card");
+  if (!card) return;
+  const k = "ABCD".indexOf(e.key.toUpperCase());
+  if (k >= 0 && !card.classList.contains("flipped")) answer(k);
+  else if (e.key === "Enter" && card.classList.contains("flipped")) { e.preventDefault(); next(); }
+});
+window.addEventListener("resize", () => document.getElementById("card") && fitCard());
+
+renderStart();
+</script>
+</body>
+</html>
