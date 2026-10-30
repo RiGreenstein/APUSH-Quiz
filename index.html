@@ -3,63 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The APUSH Gazette — Unit 3 (1754–1800)</title>
+<title>APUSH Unit 3 Quiz (1754–1800)</title>
 <style>
   :root {
-    --parch: #f3e7c9; --parch-dark: #e4d2a6; --ink: #2b1d0e; --ink-soft: #5a4630;
-    --red: #8b1e1e; --navy: #1c2c4c; --gold: #b8892b; --green: #2f5d3a;
+    --bg: #eef1f6; --card: #ffffff; --ink: #1a2233; --muted: #667085; --line: #e3e7ef;
+    --red: #c0392b; --navy: #1f3a68; --navy-soft: #e8eef8; --gold: #d4a017; --green: #1e8a4c;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0; min-height: 100vh; color: var(--ink);
-    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
-    background: radial-gradient(ellipse at center, #5a3d22 0%, #2a1a0d 100%);
-    display: flex; justify-content: center; padding: 28px 14px 60px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); display: flex; justify-content: center; padding: 28px 14px 60px;
   }
-  .sheet {
-    width: 100%; max-width: 820px; background: var(--parch); padding: 30px 38px 34px;
-    background-image:
-      radial-gradient(circle at 15% 20%, rgba(160,120,60,.18), transparent 40%),
-      radial-gradient(circle at 85% 80%, rgba(140,100,50,.22), transparent 45%),
-      radial-gradient(circle at 70% 10%, rgba(120,80,40,.12), transparent 30%);
-    box-shadow: 0 0 0 1px #c9b27a, 0 0 40px rgba(0,0,0,.6), inset 0 0 80px rgba(120,80,30,.35);
-    position: relative;
+  .sheet { width: 100%; max-width: 800px; }
+  .masthead {
+    background: linear-gradient(120deg, var(--navy) 0%, #2d528f 60%, var(--red) 140%); color: #fff;
+    border-radius: 16px; padding: 22px 26px; margin-bottom: 14px; box-shadow: 0 8px 24px rgba(31,58,104,.25);
   }
-  .masthead { text-align: center; border-bottom: 4px double var(--ink); padding-bottom: 10px; margin-bottom: 6px; }
-  .masthead .top { display: flex; justify-content: space-between; font-size: .78rem; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
-  .masthead h1 {
-    font-family: "Old English Text MT", "UnifrakturMaguntia", "Engravers Old English", "Goudy Old Style", Georgia, serif;
-    font-size: 3rem; margin: 6px 0 2px; letter-spacing: .02em; font-weight: normal;
-  }
-  .masthead .motto { font-style: italic; color: var(--ink-soft); }
+  .masthead .top { display: none; }
+  .masthead h1 { margin: 0; font-size: 1.7rem; font-weight: 800; letter-spacing: -.01em; }
+  .masthead .motto { opacity: .85; margin-top: 4px; font-size: .95rem; }
   .dateline {
-    display: flex; justify-content: space-between; border-bottom: 1px solid var(--ink); padding: 5px 2px;
-    font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 20px; flex-wrap: wrap; gap: 6px;
+    display: flex; justify-content: space-between; padding: 0 4px; font-size: .82rem; font-weight: 600;
+    color: var(--muted); margin-bottom: 14px; flex-wrap: wrap; gap: 6px;
   }
   /* timeline progress */
-  .timeline { position: relative; height: 46px; margin: 4px 8px 22px; }
-  .timeline .rail { position: absolute; top: 14px; left: 0; right: 0; height: 4px; background: var(--parch-dark); border: 1px solid var(--ink-soft); }
-  .timeline .fill { position: absolute; top: 14px; left: 0; height: 4px; background: var(--red); transition: width .4s; }
-  .timeline .tick { position: absolute; top: 8px; transform: translateX(-50%); text-align: center; font-size: .7rem; color: var(--ink-soft); }
-  .timeline .tick::before { content: ""; display: block; width: 2px; height: 16px; background: var(--ink-soft); margin: 0 auto 4px; }
-  .timeline .musket { position: absolute; top: -4px; transform: translateX(-50%); font-size: 1.3rem; transition: left .4s; }
-  /* start screen */
-  .notice { border: 2px solid var(--ink); padding: 18px 22px; margin-bottom: 18px; position: relative; }
-  .notice::before { content: ""; position: absolute; inset: 4px; border: 1px solid var(--ink); pointer-events: none; }
-  .notice h2 { text-align: center; margin: 0 0 8px; text-transform: uppercase; letter-spacing: .14em; font-size: 1.25rem; }
-  .cols { columns: 2; column-gap: 28px; column-rule: 1px solid var(--ink-soft); font-size: .98rem; line-height: 1.55; text-align: justify; }
-  .cols p { margin: 0 0 10px; }
-  .cols p:first-child::first-letter { float: left; font-size: 3.2rem; line-height: .85; padding: 4px 6px 0 0; color: var(--red); }
-  .periods { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 8px; margin: 16px 0; }
-  .periods label { display: flex; gap: 8px; align-items: center; border: 1px solid var(--ink-soft); padding: 7px 10px; cursor: pointer; background: rgba(255,255,255,.18); font-size: .92rem; }
-  .btn {
-    font-family: inherit; font-size: 1.05rem; text-transform: uppercase; letter-spacing: .12em; cursor: pointer;
-    background: var(--red); color: var(--parch); border: 2px solid var(--ink); padding: 11px 26px;
-    box-shadow: 3px 3px 0 var(--ink); transition: transform .08s, box-shadow .08s;
+  .timeline { position: relative; height: 46px; margin: 4px 10px 18px; }
+  .timeline .rail { position: absolute; top: 14px; left: 0; right: 0; height: 6px; background: var(--line); border-radius: 99px; }
+  .timeline .fill { position: absolute; top: 14px; left: 0; height: 6px; background: var(--navy); border-radius: 99px; transition: width .4s; }
+  .timeline .tick { position: absolute; top: 24px; transform: translateX(-50%); font-size: .7rem; color: var(--muted); font-weight: 600; }
+  .timeline .musket {
+    position: absolute; top: 9px; transform: translateX(-50%); width: 16px; height: 16px; border-radius: 50%;
+    background: var(--red); border: 3px solid #fff; box-shadow: 0 0 0 2px var(--red); transition: left .4s; font-size: 0;
   }
-  .btn:hover { background: #a02626; }
-  .btn:active { transform: translate(2px,2px); box-shadow: 1px 1px 0 var(--ink); }
-  .btn.ghost { background: transparent; color: var(--ink); }
+  /* start screen */
+  .notice { background: var(--card); border-radius: 16px; padding: 22px 24px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+  .notice h2 { margin: 0 0 8px; font-size: 1.15rem; }
+  .cols { font-size: .98rem; line-height: 1.6; color: #3a4456; }
+  .cols p { margin: 0 0 8px; }
+  .periods { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px; margin: 10px 0 16px; }
+  .periods label {
+    display: flex; gap: 8px; align-items: center; background: var(--card); border: 1.5px solid var(--line);
+    padding: 10px 12px; border-radius: 10px; cursor: pointer; font-size: .92rem;
+  }
+  .periods label:has(input:checked) { border-color: var(--navy); background: var(--navy-soft); }
+  .btn {
+    font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; background: var(--navy); color: #fff;
+    border: none; padding: 12px 24px; border-radius: 10px; transition: background .15s, transform .08s;
+  }
+  .btn:hover { background: #17305a; }
+  .btn:active { transform: scale(.98); }
+  .btn.ghost { background: var(--card); color: var(--navy); border: 1.5px solid var(--navy); }
   .btn:disabled { opacity: .4; cursor: not-allowed; }
   .center { text-align: center; }
   /* flip card */
@@ -68,60 +62,54 @@
   .card.flipped { transform: rotateY(180deg); }
   .face {
     position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-    border: 2px solid var(--ink); padding: 22px 26px; background: var(--parch);
-    background-image: radial-gradient(circle at 80% 20%, rgba(160,120,60,.15), transparent 50%);
-    overflow: auto;
+    border-radius: 16px; padding: 24px 26px; background: var(--card); box-shadow: 0 6px 24px rgba(0,0,0,.08); overflow: auto;
   }
-  .face::before { content: ""; position: absolute; inset: 5px; border: 1px solid var(--ink-soft); pointer-events: none; }
   .back { transform: rotateY(180deg); }
-  .kicker { font-size: .78rem; text-transform: uppercase; letter-spacing: .16em; color: var(--red); font-weight: bold; text-align: center; }
-  .kicker span { color: var(--ink-soft); font-weight: normal; }
-  .rule { text-align: center; color: var(--ink-soft); margin: 6px 0 12px; letter-spacing: .5em; }
+  .kicker { font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--navy); font-weight: 700; }
+  .kicker span { color: var(--muted); font-weight: 600; }
+  .rule { height: 1px; background: var(--line); margin: 10px 0 14px; font-size: 0; }
   .source {
-    background: rgba(255,255,255,.28); border-left: 4px solid var(--gold); padding: 10px 14px; margin: 0 0 14px;
-    font-style: italic; line-height: 1.55;
+    background: #fbf7ec; border-left: 4px solid var(--gold); border-radius: 0 10px 10px 0; padding: 12px 16px; margin: 0 0 14px;
+    font-family: Georgia, serif; font-style: italic; line-height: 1.55; color: #3a3220;
   }
-  .source cite { display: block; margin-top: 6px; font-style: normal; font-size: .85rem; color: var(--ink-soft); text-align: right; }
-  .question { font-size: 1.18rem; line-height: 1.5; margin: 0 0 14px; font-weight: bold; }
+  .source cite { display: block; margin-top: 6px; font-style: normal; font-size: .82rem; color: var(--muted); font-family: system-ui, sans-serif; }
+  .question { font-size: 1.15rem; line-height: 1.5; margin: 0 0 14px; font-weight: 700; }
   .choices { display: grid; gap: 8px; }
   .choice {
-    text-align: left; font-family: inherit; font-size: 1rem; line-height: 1.45; background: transparent; color: var(--ink);
-    border: 1px solid var(--ink-soft); padding: 9px 12px 9px 42px; cursor: pointer; position: relative;
+    text-align: left; font-family: inherit; font-size: .98rem; line-height: 1.45; background: #f7f8fb; color: var(--ink);
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 11px 12px 11px 46px; cursor: pointer; position: relative;
+    transition: border-color .12s, background .12s;
   }
   .choice::before {
-    content: attr(data-l); position: absolute; left: 10px; top: 8px; width: 22px; height: 22px; border: 1px solid var(--ink);
-    border-radius: 50%; display: grid; place-items: center; font-size: .8rem; font-weight: bold;
+    content: attr(data-l); position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px;
+    border-radius: 6px; background: var(--navy-soft); color: var(--navy); display: grid; place-items: center; font-size: .8rem; font-weight: 800;
   }
-  .choice:hover { background: rgba(139,30,30,.08); border-color: var(--red); }
-  .verdict { text-align: center; font-size: 2rem; margin: 6px 0 4px; letter-spacing: .06em; }
+  .choice:hover { background: var(--navy-soft); border-color: var(--navy); }
+  .verdict { font-size: 1.6rem; font-weight: 800; margin: 6px 0 0; }
   .verdict.ok { color: var(--green); } .verdict.no { color: var(--red); }
-  .stamp {
-    position: absolute; top: 22px; right: 26px; border: 3px solid currentColor; padding: 4px 10px; transform: rotate(10deg);
-    font-weight: bold; text-transform: uppercase; letter-spacing: .1em; font-size: .9rem; opacity: .85;
-  }
-  .stamp.ok { color: var(--green); } .stamp.no { color: var(--red); }
-  .answer-line { margin: 10px 0; padding: 10px 12px; border: 1px dashed var(--ink-soft); background: rgba(255,255,255,.22); }
+  .stamp { position: absolute; top: 20px; right: 24px; font-size: 1.8rem; }
+  .answer-line { margin: 10px 0; padding: 12px 14px; border-radius: 10px; background: #f7f8fb; line-height: 1.5; }
   .answer-line b { color: var(--green); }
   .answer-line .yours { color: var(--red); text-decoration: line-through; }
-  .expl { line-height: 1.6; }
-  .back .btn { margin-top: 12px; }
-  .scorebar { display: flex; justify-content: space-between; font-size: .88rem; text-transform: uppercase; letter-spacing: .08em; margin: 14px 2px 0; color: var(--ink-soft); }
-  .streak { color: var(--red); font-weight: bold; }
+  .expl { line-height: 1.6; color: #3a4456; }
+  .back .btn { margin-top: 14px; }
+  .scorebar { display: flex; justify-content: space-between; font-size: .85rem; font-weight: 600; margin: 14px 4px 0; color: var(--muted); }
+  .streak { color: var(--red); font-weight: 800; }
   /* results */
-  .rank { font-size: 2.2rem; text-align: center; margin: 4px 0; }
-  .rank small { display: block; font-size: 1rem; font-style: italic; color: var(--ink-soft); }
-  table.ledger { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: .95rem; }
-  .ledger th { text-align: left; border-bottom: 2px solid var(--ink); padding: 4px; text-transform: uppercase; font-size: .78rem; letter-spacing: .1em; }
-  .ledger td { padding: 6px 4px; border-bottom: 1px dotted var(--ink-soft); }
-  .ledger td.n { text-align: right; white-space: nowrap; }
-  .errata { border-top: 3px double var(--ink); margin-top: 18px; padding-top: 10px; }
-  .errata h3 { text-align: center; text-transform: uppercase; letter-spacing: .14em; margin: 0 0 10px; }
-  .erratum { padding: 10px 0; border-bottom: 1px dotted var(--ink-soft); line-height: 1.5; }
-  .erratum .ans { color: var(--green); font-weight: bold; }
-  .erratum .exp { color: var(--ink-soft); font-size: .93rem; }
+  .rank { font-size: 2rem; font-weight: 800; text-align: center; margin: 4px 0; color: var(--navy); }
+  .rank small { display: block; font-size: 1rem; font-weight: 500; color: var(--muted); margin-top: 4px; }
+  table.ledger { width: 100%; border-collapse: collapse; margin: 0 0 20px; font-size: .95rem; background: var(--card); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+  .ledger th { text-align: left; padding: 10px 14px; font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); background: #f7f8fb; }
+  .ledger td { padding: 10px 14px; border-top: 1px solid var(--line); }
+  .ledger td.n { text-align: right; white-space: nowrap; font-weight: 600; }
+  .errata { margin-top: 24px; }
+  .errata h3 { margin: 0 0 10px; }
+  .erratum { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; line-height: 1.5; box-shadow: 0 2px 8px rgba(0,0,0,.04); }
+  .erratum .ans { color: var(--green); font-weight: 700; }
+  .erratum .exp { color: var(--muted); font-size: .93rem; }
   .btnrow { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 10px; }
   @media (max-width: 640px) {
-    .sheet { padding: 20px 16px; } .masthead h1 { font-size: 2.1rem; } .cols { columns: 1; }
+    .masthead h1 { font-size: 1.35rem; }
     .timeline .tick:nth-child(even) { display: none; }
   }
 </style>
@@ -130,13 +118,12 @@
 <div class="sheet">
   <div class="masthead">
     <div class="top"><span>Vol. III</span><span>Price: One Grade Point</span></div>
-    <h1>The APUSH Gazette</h1>
-    <div class="motto">Containing the Freshest Advices, Foreign &amp; Domestic — Period 3, 1754–1800</div>
+    <h1>APUSH Unit 3 Quiz</h1>
+    <div class="motto">Period 3 · 1754–1800 · Colonial crisis to the early republic</div>
   </div>
-  <div class="dateline"><span id="dl-left">Printed for the Students of History</span><span id="dl-right">Unit III Examination</span></div>
+  <div class="dateline"><span id="dl-left"></span><span id="dl-right"></span></div>
   <div id="app"></div>
 </div>
-
 <script>
 const PERIODS = {
   war: "French & Indian War (1754–1763)",
@@ -146,7 +133,6 @@ const PERIODS = {
   early: "The Early Republic (1789–1800)",
 };
 const YEAR_SPAN = [1754, 1800];
-
 // Each question: first choice listed is correct. `yr` drives the timeline.
 const QS = [
   // ===== French & Indian War =====
@@ -178,7 +164,6 @@ const QS = [
         "indifference, because few colonists lived near the frontier",
         "support, because it lowered their taxes"],
     e: "The Proclamation Line of 1763 barred settlement west of the Appalachians to prevent conflict with Native peoples. Colonists — many of whom had fought in the war — resented it and often ignored it." },
-
   // ===== Road to Revolution =====
   { p: "road", yr: 1765, q: "The Stamp Act (1765) differed from earlier British trade laws because it",
     c: ["was a direct tax on the colonists intended to raise revenue, not just regulate trade",
@@ -219,7 +204,6 @@ const QS = [
   { p: "road", yr: 1774, q: "The First Continental Congress (1774) responded to the Coercive Acts by",
     c: ["organizing a boycott of British goods and petitioning the King for redress", "declaring independence", "ratifying the Constitution", "appointing George Washington president"],
     e: "Delegates from 12 colonies created the Continental Association (a boycott) and sent the Declaration of Rights and Grievances — still seeking reconciliation, not independence." },
-
   // ===== Revolution =====
   { p: "rev", yr: 1775, q: "The Olive Branch Petition (1775) shows that many members of the Second Continental Congress",
     c: ["still hoped to reconcile with Britain even after fighting had begun", "wanted an alliance with Spain", "opposed creating an army", "supported Parliament's right to tax"],
@@ -254,7 +238,6 @@ const QS = [
   { p: "rev", yr: 1783, q: "Under the Treaty of Paris (1783), the United States gained",
     c: ["independence and territory extending west to the Mississippi River", "Canada and Florida", "territory west to the Pacific Ocean", "only the land east of the Appalachian Mountains"],
     e: "Britain recognized U.S. independence with borders from the Atlantic to the Mississippi, Canada to Spanish Florida. Native nations were not party to the treaty." },
-
   // ===== Articles & Constitution =====
   { p: "aoc", yr: 1781, q: "Which was a major weakness of the Articles of Confederation?",
     c: ["Congress could not levy taxes or regulate interstate commerce", "The president had too much power", "The national judiciary overruled state courts", "Congress could draft citizens into the army at will"],
@@ -296,7 +279,6 @@ const QS = [
   { p: "aoc", yr: 1791, q: "The Bill of Rights (1791) was added to the Constitution mainly to",
     c: ["win over Anti-Federalists by protecting individual liberties from the federal government", "abolish slavery", "create the Electoral College", "establish the national bank"],
     e: "Madison drafted the first ten amendments, protecting freedoms like speech, religion, press, and due process, fulfilling a promise made during ratification." },
-
   // ===== Early Republic =====
   { p: "early", yr: 1790, q: "Alexander Hamilton's financial plan included all of the following EXCEPT",
     c: ["abolishing all tariffs to promote free trade", "federal assumption of state war debts", "creation of a national bank", "an excise tax on whiskey"],
@@ -345,22 +327,19 @@ const QS = [
     c: ["had a civic duty to raise virtuous, educated citizens for the republic", "should be allowed to vote and hold office", "should not receive any education", "should serve in the military"],
     e: "This ideal elevated women's domestic role as politically important and justified expanded female education, while still excluding women from formal political life." },
 ];
-
 const RANKS = [
-  [95, "General of the Army", "Washington himself would salute you."],
-  [85, "Colonel", "A brilliant command of the Revolutionary era."],
-  [75, "Captain", "Solid ground — a few skirmishes left to win."],
-  [60, "Sergeant", "Good progress. Review the dispatches below."],
-  [40, "Minuteman", "Ready at a minute's notice — but drill more."],
-  [0, "Raw Recruit", "Every Patriot starts somewhere. Study and return!"],
+  [95, "Exam Ready 🏆", "Outstanding — you know this unit cold."],
+  [85, "Excellent", "Strong command of Period 3."],
+  [75, "Solid", "Good work — a few gaps to close."],
+  [60, "Getting There", "Review the explanations below."],
+  [40, "Needs Review", "Focus on your weakest topics."],
+  [0, "Keep Studying", "Go through the explanations and try again."],
 ];
-
 const app = document.getElementById("app");
 let S = {};
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0; [a[i], a[j]] = [a[j], a[i]]; } return a; };
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const L = "ABCD";
-
 function timelineHTML(year) {
   const [a, b] = YEAR_SPAN, pct = y => ((y - a) / (b - a)) * 100;
   const ticks = [1754, 1763, 1765, 1770, 1776, 1781, 1787, 1791, 1796, 1800];
@@ -370,32 +349,30 @@ function timelineHTML(year) {
     <div class="musket" style="left:${pct(year)}%" title="${year}">🎖️</div>
   </div>`;
 }
-
 function renderStart() {
-  document.getElementById("dl-right").textContent = "Unit III Examination";
+  document.getElementById("dl-right").textContent = "";
   app.innerHTML = `
     <div class="notice">
-      <h2>Notice to the Publick</h2>
+      <h2>How it works</h2>
       <div class="cols">
-        <p>Whereas the Students of American History are presently engaged in the Study of the Third Period, spanning the Years 1754 to 1800, this Gazette doth present ${QS.length} Questions upon the French &amp; Indian War, the Imperial Crisis, the Revolution, the Framing of the Constitution, and the Early Republic.</p>
-        <p>Each Card shall be turned upon Answering, revealing the Truth of the Matter along with Context useful for the Examination. Several Questions present Primary Sources in the Manner of the College Board. A Streak of correct Answers shall be tallied, and a Rank conferred at the End.</p>
+        <p>${QS.length} questions covering the French and Indian War, the road to revolution, the Revolutionary War, the Articles and Constitution, and the early republic.</p>
+        <p>Pick an answer and the card flips to show the explanation. Some questions use primary-source excerpts like the AP exam. Build a streak and see your score breakdown at the end.</p>
       </div>
     </div>
-    <div style="font-weight:bold;text-transform:uppercase;letter-spacing:.1em;font-size:.85rem">Select the Periods to be Examined:</div>
+    <div style="font-weight:700;font-size:.9rem">Topics to include</div>
     <div class="periods">
       ${Object.entries(PERIODS).map(([k, v]) => `<label><input type="checkbox" value="${k}" checked> ${v}</label>`).join("")}
     </div>
-    <label style="display:flex;gap:8px;align-items:center;margin-bottom:18px"><input type="checkbox" id="chrono"> Present questions in chronological order (rather than shuffled)</label>
-    <div class="center"><button class="btn" id="go">Commence Examination</button></div>`;
+    <label style="display:flex;gap:8px;align-items:center;margin-bottom:18px"><input type="checkbox" id="chrono"> Chronological order (instead of shuffled)</label>
+    <div class="center"><button class="btn" id="go">Start Quiz</button></div>`;
   document.getElementById("go").onclick = () => {
     const sel = [...app.querySelectorAll(".periods input:checked")].map(i => i.value);
-    if (!sel.length) return alert("Pray select at least one Period.");
+    if (!sel.length) return alert("Select at least one topic.");
     let pool = QS.filter(q => sel.includes(q.p));
     pool = document.getElementById("chrono").checked ? pool.slice().sort((a, b) => a.yr - b.yr) : shuffle(pool);
     begin(pool);
   };
 }
-
 function begin(pool) {
   S = {
     pool, i: 0, results: [], streak: 0, best: 0,
@@ -403,17 +380,16 @@ function begin(pool) {
   };
   renderCard();
 }
-
 function renderCard() {
   const q = S.qs[S.i];
   const correct = S.results.filter(r => r.ok).length;
-  document.getElementById("dl-right").textContent = `Dispatch ${S.i + 1} of ${S.qs.length}`;
+  document.getElementById("dl-right").textContent = `Question ${S.i + 1} of ${S.qs.length}`;
   app.innerHTML = `
     ${timelineHTML(q.yr)}
     <div class="stage"><div class="card" id="card">
       <div class="face front">
         <div class="kicker">${esc(PERIODS[q.p])} <span>· c. ${q.yr}</span></div>
-        <div class="rule">✦ ✦ ✦</div>
+        <div class="rule"></div>
         ${q.src ? `<div class="source">${esc(q.src)}<cite>${esc(q.cite)}</cite></div>` : ""}
         <p class="question">${esc(q.q)}</p>
         <div class="choices">${q.choices.map((c, k) => `<button class="choice" data-l="${L[k]}" data-k="${k}">${esc(c)}</button>`).join("")}</div>
@@ -428,14 +404,12 @@ function renderCard() {
   app.querySelectorAll(".choice").forEach(b => b.onclick = () => answer(+b.dataset.k));
   fitCard();
 }
-
 function fitCard() {
   const card = document.getElementById("card");
   card.style.minHeight = "0px";
   const h = Math.max(...[...card.querySelectorAll(".face")].map(f => f.scrollHeight));
   card.style.minHeight = Math.max(320, h + 4) + "px";
 }
-
 function answer(k) {
   const card = document.getElementById("card");
   if (!card || card.classList.contains("flipped")) return;
@@ -445,17 +419,17 @@ function answer(k) {
   S.best = Math.max(S.best, S.streak);
   const last = S.i === S.qs.length - 1;
   document.getElementById("back").innerHTML = `
-    <span class="stamp ${ok ? "ok" : "no"}">${ok ? "Huzzah!" : "Alas!"}</span>
+    <span class="stamp ${ok ? "ok" : "no"}">${ok ? "✅" : "❌"}</span>
     <div class="kicker">${esc(PERIODS[q.p])}</div>
     <div class="verdict ${ok ? "ok" : "no"}">${ok ? "Correct" : "Incorrect"}</div>
-    <div class="rule">✦ ✦ ✦</div>
+    <div class="rule"></div>
     <p style="margin:0 0 6px"><i>${esc(q.q)}</i></p>
     <div class="answer-line">
       ${ok ? "" : `<div class="yours">Your answer: ${esc(q.choices[k])}</div>`}
       <div>Correct: <b>${esc(q.choices[q.ans])}</b></div>
     </div>
     <div class="expl">${esc(q.e)}</div>
-    <div class="center"><button class="btn" id="next">${last ? "Read the Final Report" : "Next Dispatch →"}</button></div>`;
+    <div class="center"><button class="btn" id="next">${last ? "See Results" : "Next →"}</button></div>`;
   document.getElementById("next").onclick = next;
   fitCard();
   card.classList.add("flipped");
@@ -463,50 +437,47 @@ function answer(k) {
   sb.children[0].textContent = `Correct: ${S.results.filter(r => r.ok).length} / ${S.results.length}`;
   sb.children[1].textContent = S.streak >= 2 ? `🔥 Streak: ${S.streak}` : "";
 }
-
 function next() {
   if (S.i < S.qs.length - 1) { S.i++; renderCard(); window.scrollTo({ top: 0, behavior: "smooth" }); }
   else renderResults();
 }
-
 function renderResults() {
   const n = S.results.length, c = S.results.filter(r => r.ok).length, pct = Math.round(c / n * 100);
   const [, rank, blurb] = RANKS.find(([min]) => pct >= min);
   const per = {};
   S.results.forEach(r => { per[r.q.p] ??= [0, 0]; per[r.q.p][1]++; if (r.ok) per[r.q.p][0]++; });
   const missed = S.results.filter(r => !r.ok);
-  document.getElementById("dl-right").textContent = "Extraordinary Edition";
+  document.getElementById("dl-right").textContent = "Results";
   app.innerHTML = `
     ${timelineHTML(1800)}
     <div class="notice">
-      <h2>Final Report from Headquarters</h2>
+      <h2 class="center">Your Results</h2>
       <div class="rank">${rank}<small>${blurb}</small></div>
       <p class="center" style="font-size:1.15rem;margin:8px 0 0">
         <b>${c}</b> of <b>${n}</b> correct (${pct}%) · Longest streak: <b>${S.best}</b>
       </p>
     </div>
     <table class="ledger">
-      <tr><th>Period</th><th style="text-align:right">Score</th></tr>
+      <tr><th>Topic</th><th style="text-align:right">Score</th></tr>
       ${Object.keys(PERIODS).filter(k => per[k]).map(k => {
         const [a, t] = per[k], p = a / t;
-        return `<tr><td>${PERIODS[k]}</td><td class="n">${a}/${t} ${p === 1 ? "★" : p >= .7 ? "✓" : "✗ review"}</td></tr>`;
+        return `<tr><td>${PERIODS[k]}</td><td class="n">${a}/${t} ${p === 1 ? "★" : p >= .7 ? "✓" : "— review"}</td></tr>`;
       }).join("")}
     </table>
     <div class="btnrow">
-      ${missed.length ? `<button class="btn" id="redo">Re-examine the ${missed.length} Missed</button>` : ""}
-      <button class="btn ghost" id="again">New Examination</button>
+      ${missed.length ? `<button class="btn" id="redo">Retry ${missed.length} missed</button>` : ""}
+      <button class="btn ghost" id="again">New Quiz</button>
     </div>
-    ${missed.length ? `<div class="errata"><h3>Errata &amp; Corrections</h3>
+    ${missed.length ? `<div class="errata"><h3>Review what you missed</h3>
       ${missed.map(r => `<div class="erratum">
         <b>${esc(r.q.q)}</b><br>
         <span class="ans">✓ ${esc(r.q.choices[r.q.ans])}</span><br>
         <span class="exp">${esc(r.q.e)}</span></div>`).join("")}</div>`
-      : `<p class="center" style="margin-top:20px"><i>No errata to report. A flawless campaign!</i></p>`}`;
+      : `<p class="center" style="margin-top:20px"><i>Perfect score — nothing to review! 🎉</i></p>`}`;
   if (missed.length) document.getElementById("redo").onclick = () => begin(shuffle(missed.map(r => QS.find(o => o.q === r.q.q))));
   document.getElementById("again").onclick = renderStart;
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
 document.addEventListener("keydown", e => {
   const card = document.getElementById("card");
   if (!card) return;
@@ -515,7 +486,6 @@ document.addEventListener("keydown", e => {
   else if (e.key === "Enter" && card.classList.contains("flipped")) { e.preventDefault(); next(); }
 });
 window.addEventListener("resize", () => document.getElementById("card") && fitCard());
-
 renderStart();
 </script>
 </body>
